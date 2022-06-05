@@ -1,4 +1,4 @@
-package fel.cvut.user.rest;
+package fel.cvut.user.rest.requests;
 
 import java.util.Date;
 

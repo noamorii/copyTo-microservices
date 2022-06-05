@@ -1,5 +1,7 @@
-package fel.cvut.user.rest;
+package fel.cvut.user.rest.controllers;
 
+import fel.cvut.user.rest.requests.UserRegistrationRequest;
+import fel.cvut.user.service.UserService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.PostMapping;

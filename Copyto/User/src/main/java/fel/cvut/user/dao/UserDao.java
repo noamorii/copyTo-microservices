@@ -1,4 +1,4 @@
-package fel.cvut.user;
+package fel.cvut.user.dao;
 
 import fel.cvut.user.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;

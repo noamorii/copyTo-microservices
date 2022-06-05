@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import java.time.LocalDate;
 import java.util.Date;
 
 @Data
@@ -18,7 +19,7 @@ import java.util.Date;
 public class Order extends AbstractEntity {
 
     private double price;
-    private Date insertionDate;
+    private LocalDate insertionDate;
     private Date deadline;
     private String link;
     private OrderState orderState;
