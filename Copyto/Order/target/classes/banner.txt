@@ -3,3 +3,5 @@
  / / / /  / ___/ / __  /  / _ \  / ___/
 / /_/ /  / /    / /_/ /  /  __/ / /
 \____/  /_/     \__,_/   \___/ /_/
+${application.title} ${application.version}
+Powered by Spring Boot ${spring-boot.version}
