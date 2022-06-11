@@ -5,10 +5,11 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Data
 @Builder
@@ -22,5 +23,15 @@ public class Order extends AbstractEntity {
     private LocalDate insertionDate;
     private Date deadline;
     private String link;
+    private boolean isOpen;
+
+    private Integer assigneeId;
+    private Integer clientId;
+
+    @Enumerated(EnumType.STRING)
     private OrderState orderState;
+
+    @ManyToMany
+    @OrderBy("name")
+    private List<Category> categories = new ArrayList<>();
 }
