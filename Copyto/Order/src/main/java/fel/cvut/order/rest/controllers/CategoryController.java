@@ -2,6 +2,7 @@ package fel.cvut.order.rest.controllers;
 
 import fel.cvut.order.exception.NotFoundException;
 import fel.cvut.order.model.Category;
+import fel.cvut.order.model.Order;
 import fel.cvut.order.rest.requests.CategoryResponse;
 import fel.cvut.order.rest.requests.OrderResponse;
 import fel.cvut.order.rest.util.RestUtils;
@@ -52,8 +53,31 @@ public class CategoryController {
             throw NotFoundException.create("Category", id);
 
         return new CategoryResponse(
-                category.getId(),
-                category.getName()
+            category.getId(),
+            category.getName()
         );
+    }
+
+    @GetMapping(value = "/{id}/categories", produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<CategoryResponse> getCategoriesByOrder(@PathVariable Integer id) {
+        List<Category> categories = categoryService.findCategoriesByOrder(orderService.findById(id));
+
+        return categories.stream()
+            .map(category -> new CategoryResponse(
+                category.getId(),
+                category.getName()))
+            .collect(Collectors.toList());
+    }
+
+    @DeleteMapping(value = "/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteCategory(@PathVariable Integer id) {
+        final Category category = categoryService.findById(id);
+
+        if (category == null)
+            throw NotFoundException.create("Category", id);
+
+        categoryService.deleteCategory(category);
+        log.debug("Category {} was deleted.", category);
     }
 }

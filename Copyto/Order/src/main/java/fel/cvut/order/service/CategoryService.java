@@ -64,4 +64,8 @@ public record CategoryService(
     public Category findById(Integer id)  {
         return categoryDao.findById(id).orElse(null);
     }
+
+    public List<Category> findCategoriesByOrder(Order order) {
+        return order.getCategories();
+    }
 }

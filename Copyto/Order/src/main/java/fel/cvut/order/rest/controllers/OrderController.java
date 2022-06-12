@@ -1,6 +1,7 @@
 package fel.cvut.order.rest.controllers;
 
 import fel.cvut.order.exception.NotFoundException;
+import fel.cvut.order.model.Category;
 import fel.cvut.order.model.Order;
 import fel.cvut.order.rest.requests.CreateOrderRequest;
 import fel.cvut.order.rest.requests.OrderResponse;
@@ -72,5 +73,17 @@ public class OrderController {
                     order.getAssigneeId(),
                     order.getClientId()))
             .collect(Collectors.toList());
+    }
+
+    @DeleteMapping(value = "/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteOrder(@PathVariable Integer id) {
+        final Order order = orderService.findById(id);
+
+        if (order == null)
+            throw NotFoundException.create("Order", id);
+
+        orderService.delete(order);
+        log.debug("Order {} was deleted.", order);
     }
 }

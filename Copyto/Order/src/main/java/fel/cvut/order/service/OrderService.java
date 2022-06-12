@@ -38,7 +38,7 @@ public record OrderService(
         orderDao.save(order);
     }
 
-    public void remove(Order order) {
+    public void delete(Order order) {
         Objects.requireNonNull(order);
         List<Category> categories = order.getCategories();
         categories.forEach(category -> {
@@ -79,7 +79,6 @@ public record OrderService(
     }
 
     public List<Order> findOrdersByCategory(Category category) {
-        Objects.requireNonNull(category);
-        return orderDao.findAllOrdersByCategory1(category);
+       return category.getOrders();
     }
 }
