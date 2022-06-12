@@ -34,4 +34,12 @@ public class Order extends AbstractEntity {
     @ManyToMany
     @OrderBy("name")
     private List<Category> categories = new ArrayList<>();
+
+    public void addCategory(Category category){
+        categories.add(category);
+    }
+
+    public void removeCategory(Category category) {
+        categories.remove(category);
+    }
 }

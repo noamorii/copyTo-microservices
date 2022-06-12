@@ -25,4 +25,12 @@ public class Category extends AbstractEntity {
     private List<Order> orders = new ArrayList<>();
 
     private String name;
+
+    public void addOrder(Order order){
+        orders.add(order);
+    }
+
+    public void removeOrder(Order order) {
+        orders.remove(order);
+    }
 }
