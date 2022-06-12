@@ -77,4 +77,9 @@ public record OrderService(
     public Order findById(Integer id) {
         return orderDao.findById(id).orElse(null);
     }
+
+    public List<Order> findOrdersByCategory(Category category) {
+        Objects.requireNonNull(category);
+        return orderDao.findAllOrdersByCategory1(category);
+    }
 }

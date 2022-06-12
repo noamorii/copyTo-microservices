@@ -1,6 +1,9 @@
 package fel.cvut.order.rest.controllers;
 
+import fel.cvut.order.exception.NotFoundException;
 import fel.cvut.order.model.Category;
+import fel.cvut.order.rest.requests.CategoryResponse;
+import fel.cvut.order.rest.requests.OrderResponse;
 import fel.cvut.order.rest.util.RestUtils;
 import fel.cvut.order.service.CategoryService;
 import fel.cvut.order.service.OrderService;
@@ -10,10 +13,10 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
 @AllArgsConstructor
@@ -30,5 +33,27 @@ public class CategoryController {
         log.info("Created category {}.", category);
         final HttpHeaders headers = RestUtils.createLocationHeaderFromCurrentUri("/{id}", category.getId());
         return new ResponseEntity<>(headers, HttpStatus.CREATED);
+    }
+
+    @GetMapping
+    public List<CategoryResponse> getAllCategories() {
+        return categoryService.findAllCategories().stream()
+            .map(category -> new CategoryResponse(
+                category.getId(),
+                category.getName()))
+            .collect(Collectors.toList());
+    }
+
+    @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public CategoryResponse getById(@PathVariable Integer id) {
+        Category category = categoryService.findById(id);
+
+        if (category == null)
+            throw NotFoundException.create("Category", id);
+
+        return new CategoryResponse(
+                category.getId(),
+                category.getName()
+        );
     }
 }

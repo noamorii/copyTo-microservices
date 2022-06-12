@@ -5,6 +5,7 @@ import fel.cvut.order.model.Order;
 import fel.cvut.order.rest.requests.CreateOrderRequest;
 import fel.cvut.order.rest.requests.OrderResponse;
 import fel.cvut.order.rest.util.RestUtils;
+import fel.cvut.order.service.CategoryService;
 import fel.cvut.order.service.OrderService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -14,7 +15,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -25,6 +25,7 @@ import java.util.stream.Collectors;
 public class OrderController {
 
     private final OrderService orderService;
+    private final CategoryService categoryService;
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> createOrder(@RequestBody CreateOrderRequest request) {
@@ -35,14 +36,14 @@ public class OrderController {
     }
 
     @GetMapping
-    public List<OrderResponse> getAllOrder() {
+    public List<OrderResponse> getAllOrders() {
         return orderService.findAllOrders().stream()
-                .map(order -> new OrderResponse(
-                    order.getId(),
-                    order.getInsertionDate(),
-                    order.getAssigneeId(),
-                    order.getClientId()))
-                .collect(Collectors.toList());
+            .map(order -> new OrderResponse(
+                order.getId(),
+                order.getInsertionDate(),
+                order.getAssigneeId(),
+                order.getClientId()))
+            .collect(Collectors.toList());
     }
 
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -53,10 +54,23 @@ public class OrderController {
             throw NotFoundException.create("order", id);
 
         return new OrderResponse(
-                order.getId(),
-                order.getInsertionDate(),
-                order.getAssigneeId(),
-                order.getClientId()
+            order.getId(),
+            order.getInsertionDate(),
+            order.getAssigneeId(),
+            order.getClientId()
         );
+    }
+
+    @GetMapping(value = "/{id}/orders", produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<OrderResponse> getOrdersByCategory(@PathVariable Integer id) {
+        List<Order> orders = orderService.findOrdersByCategory(categoryService.findById(id));
+
+        return orders.stream()
+            .map(order -> new OrderResponse(
+                    order.getId(),
+                    order.getInsertionDate(),
+                    order.getAssigneeId(),
+                    order.getClientId()))
+            .collect(Collectors.toList());
     }
 }

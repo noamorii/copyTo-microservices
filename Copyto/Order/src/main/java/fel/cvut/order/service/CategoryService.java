@@ -7,6 +7,7 @@ import fel.cvut.order.model.Order;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Objects;
 
 @Service
@@ -54,5 +55,13 @@ public record CategoryService(
             orderDao.save(order);
         });
         categoryDao.delete(category);
+    }
+
+    public List<Category> findAllCategories() {
+        return categoryDao.findAll();
+    }
+
+    public Category findById(Integer id)  {
+        return categoryDao.findById(id).orElse(null);
     }
 }
