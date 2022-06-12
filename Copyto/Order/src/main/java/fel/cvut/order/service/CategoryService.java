@@ -11,7 +11,7 @@ import java.util.Objects;
 
 @Service
 @AllArgsConstructor
-public record CategoryServices(
+public record CategoryService(
         CategoryDao categoryDao,
         OrderDao orderDao) {
 

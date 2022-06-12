@@ -1,13 +1,22 @@
 package fel.cvut.order.rest.controllers;
 
+import fel.cvut.order.exception.NotFoundException;
+import fel.cvut.order.model.Order;
 import fel.cvut.order.rest.requests.CreateOrderRequest;
+import fel.cvut.order.rest.requests.OrderResponse;
+import fel.cvut.order.rest.util.RestUtils;
 import fel.cvut.order.service.OrderService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
 @AllArgsConstructor
@@ -17,9 +26,37 @@ public class OrderController {
 
     private final OrderService orderService;
 
-    @PostMapping
-    public void createOrder(@RequestBody CreateOrderRequest request) {
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Void> createOrder(@RequestBody CreateOrderRequest request) {
         log.info("new order creating {}", request);
-        orderService.createOrder(request);
+        Order order = orderService.createOrder(request);
+        final HttpHeaders headers = RestUtils.createLocationHeaderFromCurrentUri("/{id}", order.getId());
+        return new ResponseEntity<>(headers, HttpStatus.CREATED);
+    }
+
+    @GetMapping
+    public List<OrderResponse> getAllOrder() {
+        return orderService.findAllOrders().stream()
+                .map(order -> new OrderResponse(
+                    order.getId(),
+                    order.getInsertionDate(),
+                    order.getAssigneeId(),
+                    order.getClientId()))
+                .collect(Collectors.toList());
+    }
+
+    @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public OrderResponse getById(@PathVariable Integer id) {
+        Order order = orderService.findById(id);
+
+        if (order == null)
+            throw NotFoundException.create("order", id);
+
+        return new OrderResponse(
+                order.getId(),
+                order.getInsertionDate(),
+                order.getAssigneeId(),
+                order.getClientId()
+        );
     }
 }

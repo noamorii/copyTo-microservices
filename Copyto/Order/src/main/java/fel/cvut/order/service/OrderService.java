@@ -19,7 +19,7 @@ public record OrderService(
         OrderDao orderDao,
         CategoryDao categoryDao) {
 
-    public void createOrder(CreateOrderRequest request) {
+    public Order createOrder(CreateOrderRequest request) {
         Objects.requireNonNull(request);
         Order order = Order.builder()
                 .clientId(request.userId())
@@ -30,6 +30,7 @@ public record OrderService(
                 .orderState(OrderState.ADDED)
                 .build();
         orderDao.save(order);
+        return order;
     }
 
     public void update(Order order) {
@@ -67,5 +68,13 @@ public record OrderService(
 
         orderDao.save(order);
         categoryDao.save(category);
+    }
+
+    public List<Order> findAllOrders() {
+        return orderDao.findAll();
+    }
+
+    public Order findById(Integer id) {
+        return orderDao.findById(id).orElse(null);
     }
 }
