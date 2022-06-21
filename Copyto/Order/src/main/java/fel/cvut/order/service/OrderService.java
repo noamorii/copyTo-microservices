@@ -7,6 +7,9 @@ import fel.cvut.order.model.Order;
 import fel.cvut.order.model.OrderState;
 import fel.cvut.order.rest.requests.CreateOrderRequest;
 import lombok.AllArgsConstructor;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -22,23 +25,25 @@ public class OrderService {
 
     public Order createOrder(CreateOrderRequest request) {
         Objects.requireNonNull(request);
-        Order order = Order.builder()
-                .clientId(request.userId())
-                .link(request.link())
-                .deadline(request.deadline())
-                .price(request.price())
-                .insertionDate(LocalDate.now())
-                .orderState(OrderState.ADDED)
+        Order order = Order.newBuilder()
+                .addClientId(request.userId())
+                .addLink(request.link())
+                .addDeadline(request.deadline())
+                .addPrice(request.price())
+                .addInsertionDate(LocalDate.now())
+                .setOrderState(OrderState.ADDED)
                 .build();
         orderDao.save(order);
         return order;
     }
 
+    @CachePut(value = "orders", key = "#order")
     public void update(Order order) {
         Objects.requireNonNull(order);
         orderDao.save(order);
     }
 
+    @CacheEvict(value = "orders", key = "#order")
     public void delete(Order order) {
         Objects.requireNonNull(order);
         List<Category> categories = order.getCategories();
@@ -75,6 +80,7 @@ public class OrderService {
         return orderDao.findAll();
     }
 
+    @Cacheable(value = "orders", key = "#id")
     public Order findById(Integer id) {
         return orderDao.findById(id).orElse(null);
     }
