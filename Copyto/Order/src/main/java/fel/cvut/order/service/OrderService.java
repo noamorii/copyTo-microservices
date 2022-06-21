@@ -6,8 +6,10 @@ import fel.cvut.order.model.Category;
 import fel.cvut.order.model.Order;
 import fel.cvut.order.model.OrderState;
 import fel.cvut.order.rest.requests.CreateOrderRequest;
+import fel.cvut.order.rest.requests.UserResponse;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -19,6 +21,7 @@ public class OrderService {
 
     private final OrderDao orderDao;
     private final CategoryDao categoryDao;
+    private final RestTemplate restTemplate;
 
     public Order createOrder(CreateOrderRequest request) {
         Objects.requireNonNull(request);

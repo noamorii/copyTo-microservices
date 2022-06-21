@@ -4,6 +4,7 @@ import fel.cvut.order.exception.NotFoundException;
 import fel.cvut.order.model.Order;
 import fel.cvut.order.rest.requests.CreateOrderRequest;
 import fel.cvut.order.rest.requests.OrderResponse;
+import fel.cvut.order.rest.requests.UserResponse;
 import fel.cvut.order.rest.util.RestUtils;
 import fel.cvut.order.service.CategoryService;
 import fel.cvut.order.service.OrderService;
@@ -14,6 +15,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -26,6 +28,7 @@ public class OrderController {
 
     private final OrderService orderService;
     private final CategoryService categoryService;
+    private final RestTemplate restTemplate;
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> createOrder(@RequestBody CreateOrderRequest request) {
@@ -37,6 +40,14 @@ public class OrderController {
 
     @GetMapping
     public List<OrderResponse> getAllOrders() {
+
+        UserResponse currentUser = restTemplate.getForObject(
+                "http://USER/api/v1/users/current_user",
+                UserResponse.class
+        );
+
+        System.out.println("---------!!!!!!!!!!!!!!!!!!!!!!!______________" + currentUser.getId());
+
         return orderService.findAllOrders().stream()
             .map(order -> new OrderResponse(
                 order.getId(),

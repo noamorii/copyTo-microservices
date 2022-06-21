@@ -39,11 +39,10 @@ target
  .idea/jarRepositories.xml
  .idea/modules.xml
 .idea/*.iml
- .idea/modules
- /*.iml
-Order/*.iml
-*.iml
- *.ipr
+.idea/modules
+User.iml
+Order.iml
+Eureka-server.iml
 
 # CMake
 cmake-build-*/
