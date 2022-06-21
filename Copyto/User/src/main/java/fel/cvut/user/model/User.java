@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;
@@ -26,4 +27,8 @@ public class User extends AbstractEntity {
     private Role role;
 
     private String intro;
+
+    public void encodePassword(PasswordEncoder passwordEncoder) {
+        password = passwordEncoder.encode(password);
+    }
 }

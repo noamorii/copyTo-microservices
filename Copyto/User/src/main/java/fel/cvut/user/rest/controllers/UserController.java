@@ -1,13 +1,17 @@
 package fel.cvut.user.rest.controllers;
 
+import fel.cvut.user.model.User;
 import fel.cvut.user.rest.requests.UserRegistrationRequest;
+import fel.cvut.user.security.application.ApplicationUser;
 import fel.cvut.user.service.UserService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.*;
+
+import java.security.Principal;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
 @AllArgsConstructor
@@ -24,4 +28,14 @@ public class UserController {
         userService.registerUser(userRegistrationRequest);
     }
 
+    @GetMapping
+    public List<User> getAllUsers() {
+        return userService.findAllUsers();
+    }
+
+    @GetMapping(value = "current_user")
+    public Object getCurrentUser() {
+        return SecurityContextHolder.getContext()
+                .getAuthentication().getPrincipal();
+    }
 }

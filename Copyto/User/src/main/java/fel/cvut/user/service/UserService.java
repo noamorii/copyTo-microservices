@@ -5,13 +5,17 @@ import fel.cvut.user.model.Role;
 import fel.cvut.user.model.User;
 import fel.cvut.user.rest.requests.UserRegistrationRequest;
 import lombok.AllArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @AllArgsConstructor
 public class UserService {
 
     private final UserDao userDao;
+    private final PasswordEncoder encoder;
 
     public void registerUser(UserRegistrationRequest request) {
         User user = User.builder()
@@ -20,11 +24,14 @@ public class UserService {
                 .email(request.email())
                 .dateOfBirth(request.dateOfBirth())
                 .password(request.password())
-                .role(Role.USER)
+                .role(request.role())
                 .mobile(request.mobile())
                 .build();
-        System.out.println(user.getFirstName());
-        System.out.println(request.firstName());
+        user.encodePassword(encoder);
         userDao.save(user);
+    }
+
+    public List<User> findAllUsers() {
+        return userDao.findAll();
     }
 }
