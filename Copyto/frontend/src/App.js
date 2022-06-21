@@ -1,4 +1,3 @@
-import logo from './logo.svg';
 import './App.css';
 import {RegistrationModal} from "./authorization/RegistrationModal";
 import {LoginModal} from "./authorization/LoginModal";

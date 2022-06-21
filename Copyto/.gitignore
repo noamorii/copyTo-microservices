@@ -40,7 +40,9 @@ target
  .idea/modules.xml
 .idea/*.iml
  .idea/modules
- *.iml
+ /*.iml
+Order/*.iml
+*.iml
  *.ipr
 
 # CMake

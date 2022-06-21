@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import {Container, Form, Button, Modal} from "react-bootstrap";
+import {Button, Form, Modal} from "react-bootstrap";
 import 'bootstrap/dist/css/bootstrap.css'
 
 export const RegistrationModal = () => {

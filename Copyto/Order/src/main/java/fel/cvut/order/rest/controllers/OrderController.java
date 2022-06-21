@@ -1,7 +1,6 @@
 package fel.cvut.order.rest.controllers;
 
 import fel.cvut.order.exception.NotFoundException;
-import fel.cvut.order.model.Category;
 import fel.cvut.order.model.Order;
 import fel.cvut.order.rest.requests.CreateOrderRequest;
 import fel.cvut.order.rest.requests.OrderResponse;

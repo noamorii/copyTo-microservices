@@ -1,7 +1,6 @@
 package fel.cvut.user.service;
 
 import fel.cvut.user.dao.UserDao;
-import fel.cvut.user.model.Role;
 import fel.cvut.user.model.User;
 import fel.cvut.user.rest.requests.UserRegistrationRequest;
 import lombok.AllArgsConstructor;
