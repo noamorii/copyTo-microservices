@@ -15,9 +15,10 @@ import java.util.Objects;
 
 @Service
 @AllArgsConstructor
-public record OrderService(
-        OrderDao orderDao,
-        CategoryDao categoryDao) {
+public class OrderService {
+
+    private final OrderDao orderDao;
+    private final CategoryDao categoryDao;
 
     public Order createOrder(CreateOrderRequest request) {
         Objects.requireNonNull(request);

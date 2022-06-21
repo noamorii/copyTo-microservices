@@ -12,10 +12,10 @@ import java.util.Objects;
 
 @Service
 @AllArgsConstructor
-public record CategoryService(
-        CategoryDao categoryDao,
-        OrderDao orderDao) {
+public class CategoryService {
 
+    private final CategoryDao categoryDao;
+    private final OrderDao orderDao;
     public void createCategory(Category category) {
         Objects.requireNonNull(category);
         categoryDao.save(category);

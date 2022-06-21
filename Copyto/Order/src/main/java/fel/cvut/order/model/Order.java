@@ -31,7 +31,7 @@ public class Order extends AbstractEntity {
     @Enumerated(EnumType.STRING)
     private OrderState orderState;
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.ALL)
     @OrderBy("name")
     private List<Category> categories = new ArrayList<>();
 
