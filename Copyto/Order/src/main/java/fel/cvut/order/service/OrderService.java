@@ -2,11 +2,11 @@ package fel.cvut.order.service;
 
 import fel.cvut.order.dao.CategoryDao;
 import fel.cvut.order.dao.OrderDao;
+import fel.cvut.order.exception.ValidationException;
 import fel.cvut.order.model.Category;
 import fel.cvut.order.model.Order;
 import fel.cvut.order.model.OrderState;
 import fel.cvut.order.rest.requests.CreateOrderRequest;
-import fel.cvut.order.rest.requests.UserResponse;
 import lombok.AllArgsConstructor;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
@@ -28,6 +29,9 @@ public class OrderService {
 
     public Order createOrder(CreateOrderRequest request) {
         Objects.requireNonNull(request);
+        if (new Date().compareTo(request.deadline()) > 0){
+            throw new ValidationException("The deadline in the request is set for the past");
+        }
         Order order = Order.newBuilder()
                 .addClientId(request.userId())
                 .addLink(request.link())
