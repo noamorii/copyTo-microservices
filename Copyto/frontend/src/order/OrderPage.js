@@ -17,34 +17,19 @@ export const OrderPage = () => {
         fetchOrders()
         }, [])
 
-    // async function fetchOrders() {
-    //     // const fetchOrders = await fetch('http://localhost:8081/api/v1/orders');
-    //     // const response = await fetchOrders.json();
-    //     const fetchOrders = await fetch('http://localhost:8081/api/v1/orders')
-    //         .then(response => setOrders(response.json()));
-    //     setOrders(response);
-    //     console.log(orders)
-    // }
-
-    // async getAllOrders() {
-    //     const url = 'http://localhost:8081/api/v1/orders';
-    //     const response = await fetch(url);
-    //     const orders = await response.json();
-    //     return orders;
-    // }
 
     return(
         <div>
-            <Table>
+            <Table style={{color:"white"}}>
                 <thead></thead>
                 <tbody>
                 {orders.map(orders => {
                     return(
                         <tr>
-                            <td>{orders.id}</td>
-                            {/*<td>{orders.insertionDate}</td>*/}
-                            {/*<td>{orders.assigneeId}</td>*/}
-                            <td>{orders.clientId}</td>
+                            <td key={orders.id}>{orders.id}</td>
+                            <td key={orders.insertionDate}>{orders.insertionDate}</td>
+                            {/*<td key={orders.assigneeId}>{orders.assigneeId}</td>*/}
+                            {/*<td key={orders.clientId}>{orders.clientId}</td>*/}
                         </tr>
                     )
                 })}
