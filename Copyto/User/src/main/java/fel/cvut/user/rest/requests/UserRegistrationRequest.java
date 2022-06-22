@@ -10,6 +10,6 @@ public record UserRegistrationRequest(
         String password,
         String mobile,
         String email,
-        Role role,
-        Date dateOfBirth) {
+        Date dateOfBirth,
+        Role role) {
 }

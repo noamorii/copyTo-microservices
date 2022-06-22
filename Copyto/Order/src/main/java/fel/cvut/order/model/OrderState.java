@@ -1,9 +1,24 @@
 package fel.cvut.order.model;
 
 public enum OrderState {
-    ADDED("ADDED"),
-    IN_PROCESS("IN_PROGRESS"),
-    DONE("DONE");
+    ADDED("ADDED"){
+        @Override
+        boolean isEditable() {
+            return true;
+        }
+    },
+    IN_PROCESS("IN_PROCESS") {
+        @Override
+        boolean isEditable() {
+            return true;
+        }
+    },
+    DONE("DONE"){
+        @Override
+        boolean isEditable() {
+            return false;
+        }
+    };
 
     private final String name;
 
@@ -15,4 +30,6 @@ public enum OrderState {
     public String toString() {
         return name;
     }
+
+    abstract boolean isEditable();
 }
