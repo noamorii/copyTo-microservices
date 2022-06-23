@@ -2,6 +2,7 @@ package fel.cvut.order.service;
 
 import fel.cvut.order.dao.CategoryDao;
 import fel.cvut.order.dao.OrderDao;
+import fel.cvut.order.exception.NotFoundException;
 import fel.cvut.order.exception.ValidationException;
 import fel.cvut.order.model.Category;
 import fel.cvut.order.model.Order;
@@ -90,7 +91,10 @@ public class OrderService {
 
     @Cacheable(value = "orders", key = "#id")
     public Order findById(Integer id) {
-        return orderDao.findById(id).orElse(null);
+        Order order = orderDao.findById(id).orElse(null);
+        if (order == null)
+            throw new NotFoundException("Order with id=" + id + " not found");
+        return order;
     }
 
     public List<Order> findOrdersByCategory(Category category) {

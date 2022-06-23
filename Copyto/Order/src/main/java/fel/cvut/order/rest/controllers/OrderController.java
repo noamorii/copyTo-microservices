@@ -3,6 +3,7 @@ package fel.cvut.order.rest.controllers;
 import fel.cvut.order.exception.NotFoundException;
 import fel.cvut.order.model.Candidate;
 import fel.cvut.order.model.Order;
+import fel.cvut.order.model.OrderState;
 import fel.cvut.order.rest.requests.CreateOrderRequest;
 import fel.cvut.order.rest.requests.OrderResponse;
 import fel.cvut.order.rest.util.RestUtils;
@@ -102,9 +103,20 @@ public class OrderController {
     @GetMapping(value = "/order/{id}/candidate")
     public void becomeCandidate(@PathVariable Integer id) {
         Order order = orderService.findById(id);
+        if (order.getOrderState() != OrderState.ADDED)
+            throw new IllegalArgumentException("Order doesn't accept new candidates");
+
         Candidate candidate = candidateService.findById(id);
         candidateService.createCandidate(order, candidate);
         log.info("Candidate {} was added to order {}", candidate, order);
     }
 
+    @GetMapping(value = "/order/{orderId}/candidate/{candidateId}")
+    public void acceptCandidate(@PathVariable Integer orderId, @PathVariable Integer candidateId ) {
+        Order order = orderService.findById(orderId);
+        Candidate candidate = candidateService.findById(candidateId);
+
+        candidateService.acceptCandidate(candidate, order);
+        log.info("Candidate {} was added to order {}", candidate, order);
+    }
 }

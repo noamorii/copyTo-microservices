@@ -31,7 +31,7 @@ public class Order extends AbstractEntity {
     @OrderBy("name")
     private List<Category> categories = new ArrayList<>();
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @OneToMany(mappedBy="order", cascade = CascadeType.ALL)
     private List<Candidate> candidates = new ArrayList<>();
 
     private Order(OrderBuilder builder) {
@@ -64,6 +64,10 @@ public class Order extends AbstractEntity {
 
     public void removeCandidate(Candidate candidate) {
         candidates.remove(candidate);
+    }
+
+    public void removeAllCandidates() {
+        candidates.clear();
     }
 
     public boolean isEditable(){
