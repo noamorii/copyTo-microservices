@@ -1,10 +1,12 @@
 package fel.cvut.order.rest.controllers;
 
 import fel.cvut.order.exception.NotFoundException;
+import fel.cvut.order.model.Candidate;
 import fel.cvut.order.model.Order;
 import fel.cvut.order.rest.requests.CreateOrderRequest;
 import fel.cvut.order.rest.requests.OrderResponse;
 import fel.cvut.order.rest.util.RestUtils;
+import fel.cvut.order.service.CandidateService;
 import fel.cvut.order.service.CategoryService;
 import fel.cvut.order.service.OrderService;
 import lombok.AllArgsConstructor;
@@ -31,6 +33,7 @@ public class OrderController {
 
     private final OrderService orderService;
     private final CategoryService categoryService;
+    private final CandidateService candidateService;
     private final RestTemplate restTemplate;
 
     @PostMapping(value = "user/create", consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -42,6 +45,7 @@ public class OrderController {
         orderRequest.setUserId(id);
         log.info("new order creating {}", orderRequest);
         Order order = orderService.createOrder(orderRequest);
+
         final HttpHeaders headers = RestUtils.createLocationHeaderFromCurrentUri("/order/{id}", order.getId());
         return new ResponseEntity<>(headers, HttpStatus.CREATED);
     }
@@ -95,12 +99,15 @@ public class OrderController {
             throw NotFoundException.create("Order", id);
 
         orderService.delete(order);
-        log.debug("Order {} was deleted.", order);
+        log.info("Order {} was deleted.", order);
     }
 
     @GetMapping(value = "/order/{id}/candidate")
-    public void becomeCandidate(@PathVariable String id) {
-
+    public void becomeCandidate(@PathVariable Integer id) {
+        Order order = orderService.findById(id);
+        Candidate candidate = candidateService.findById(id);
+        candidateService.createCandidate(order, candidate);
+        log.info("Candidate {} was added to order {}", candidate, order);
     }
 
 }
