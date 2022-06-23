@@ -2,16 +2,22 @@ package fel.cvut.order.service;
 
 import fel.cvut.order.dao.CategoryDao;
 import fel.cvut.order.dao.OrderDao;
+import fel.cvut.order.exception.ValidationException;
+import fel.cvut.order.exception.ValidationException;
 import fel.cvut.order.model.Category;
 import fel.cvut.order.model.Order;
 import fel.cvut.order.model.OrderState;
 import fel.cvut.order.rest.requests.CreateOrderRequest;
-import fel.cvut.order.rest.requests.UserResponse;
 import lombok.AllArgsConstructor;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import java.time.LocalDate;
+import java.util.Date;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
@@ -25,24 +31,29 @@ public class OrderService {
 
     public Order createOrder(CreateOrderRequest request) {
         Objects.requireNonNull(request);
-        Order order = Order.builder()
-                .clientId(request.getUserId())
-                .link(request.getLink())
-                .deadline(request.getDeadline())
-                .price(request.getPrice())
-                .insertionDate(LocalDate.now())
-                .orderState(OrderState.ADDED)
+        if (new Date().compareTo(request.getDeadline()) > 0){
+            throw new ValidationException("The deadline in the request is set for the past");
+        }
+        Order order = Order.newBuilder()
+                .addClientId(request.getUserId())
+                .addLink(request.getLink())
+                .addDeadline(request.getDeadline())
+                .addPrice(request.getPrice())
+                .addInsertionDate(LocalDate.now())
+                .setOrderState(OrderState.ADDED)
                 .isOpen(true)
                 .build();
         orderDao.save(order);
         return order;
     }
 
+    @CachePut(value = "orders", key = "#order")
     public void update(Order order) {
         Objects.requireNonNull(order);
         orderDao.save(order);
     }
 
+    @CacheEvict(value = "orders", key = "#order")
     public void delete(Order order) {
         Objects.requireNonNull(order);
         List<Category> categories = order.getCategories();
@@ -79,6 +90,7 @@ public class OrderService {
         return orderDao.findAll();
     }
 
+    @Cacheable(value = "orders", key = "#id")
     public Order findById(Integer id) {
         return orderDao.findById(id).orElse(null);
     }

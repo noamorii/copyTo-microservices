@@ -28,6 +28,7 @@ public class CategoryService {
         category.addOrder(order);
         order.addCategory(category);
         orderDao.save(order);
+        categoryDao.save(category);
     }
 
     public void removeOrder(Category category, Order order){
