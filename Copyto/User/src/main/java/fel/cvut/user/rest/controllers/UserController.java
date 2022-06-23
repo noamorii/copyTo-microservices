@@ -29,23 +29,21 @@ import java.util.List;
 public class UserController {
 
     private final UserService userService;
-    private final RestTemplate restTemplate;
 
     @GetMapping(value = "/sendCookie")
     public void sendUser(HttpServletRequest request, HttpServletResponse response) throws URISyntaxException, IOException {
         Object o = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        if (o != "anonymousUser") {
-            ApplicationUser user = (ApplicationUser) o;
-            response.sendRedirect("http://localhost:8081/api/v1/orders/user/" + user.getId());
-        } else {
+
+        if (o == "anonymousUser")
             throw new UserPrincipalNotFoundException("You're not logged in");
-        }
+
+        ApplicationUser user = (ApplicationUser) o;
+        response.sendRedirect("http://localhost:8081/api/v1/" + user.getId());
     }
 
     @PostMapping
     public void registerUser(@RequestBody UserRegistrationRequest userRegistrationRequest) {
         log.info("new user registration {}", userRegistrationRequest);
-        log.warn(userRegistrationRequest.firstName());
         userService.registerUser(userRegistrationRequest);
     }
 

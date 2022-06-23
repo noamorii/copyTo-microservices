@@ -20,7 +20,7 @@ public class Category extends AbstractEntity {
     @ManyToMany(mappedBy = "categories", fetch = FetchType.LAZY)
     @OrderBy("insertionDate")
     private List<Order> orders = new ArrayList<>();
-
+    private Integer creatorId;
     private String name;
 
     public void addOrder(Order order){

@@ -3,6 +3,7 @@ package fel.cvut.order.rest.util;
 import org.springframework.http.HttpHeaders;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import javax.servlet.http.Cookie;
 import java.net.URI;
 
 public class RestUtils {
@@ -24,5 +25,12 @@ public class RestUtils {
         final HttpHeaders headers = new HttpHeaders();
         headers.set(HttpHeaders.LOCATION, location.toASCIIString());
         return headers;
+    }
+
+    public static int getCookieUserId(Cookie[] cookies) {
+        for (Cookie cookie : cookies)
+            if (cookie.getName().equals("userId"))
+                return Integer.parseInt(cookie.getValue());
+        return 0;
     }
 }

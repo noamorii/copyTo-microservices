@@ -35,14 +35,7 @@ public class OrderController {
 
     @PostMapping(value = "user/create", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> createOrder(HttpServletRequest request, @RequestBody CreateOrderRequest orderRequest) {
-        int id = 0;
-        Cookie[] cookies = request.getCookies();
-        for (Cookie cookie : cookies) {
-            if (cookie.getName().equals("userId")) {
-                id = Integer.parseInt(cookie.getValue());
-            }
-        }
-
+        int id = RestUtils.getCookieUserId(request.getCookies());
         if (id == 0)
             throw new NotFoundException("You aren't logged in");
 
@@ -51,25 +44,6 @@ public class OrderController {
         Order order = orderService.createOrder(orderRequest);
         final HttpHeaders headers = RestUtils.createLocationHeaderFromCurrentUri("/order/{id}", order.getId());
         return new ResponseEntity<>(headers, HttpStatus.CREATED);
-    }
-
-    @GetMapping(value = "/user/{userid}")
-    public void createUserCookie(HttpServletResponse response, @PathVariable Integer userid) throws IOException {
-        Cookie cookie = new Cookie("userId", userid.toString());
-        cookie.setMaxAge(60*60);
-        response.addCookie(cookie);
-        response.sendRedirect("http://localhost:8081/api/v1/orders/user/");
-    }
-
-    @GetMapping(value = "/user")
-    public Integer getCurrentUserId(HttpServletRequest request){
-        Cookie[] cookies = request.getCookies();
-        for (Cookie cookie : cookies) {
-            if (cookie.getName().equals("userId")) {
-                return Integer.valueOf(cookie.getValue());
-            }
-        }
-        return 0;
     }
 
     @GetMapping
@@ -123,4 +97,10 @@ public class OrderController {
         orderService.delete(order);
         log.debug("Order {} was deleted.", order);
     }
+
+    @GetMapping(value = "/order/{id}/candidate")
+    public void becomeCandidate(@PathVariable String id) {
+
+    }
+
 }

@@ -54,17 +54,15 @@ class OrderServiceTest {
         Calendar calendar = Calendar.getInstance();
         calendar.set(2099, Calendar.JANUARY, 1, 0, 0, 0);
         Date expectedDeadline = calendar.getTime();
-        Integer expectedUserId = 1;
         double expectedPrice = 22;
         String expectedLink = "https://google.com";
-        CreateOrderRequest request = new CreateOrderRequest(expectedUserId, expectedDeadline, expectedPrice, expectedLink);
+        CreateOrderRequest request = new CreateOrderRequest(expectedDeadline, expectedPrice, expectedLink);
 
         //Act
         Order actualOrder = orderService.createOrder(request);
 
         //Assert
-        assertAll(() -> assertEquals(expectedUserId, actualOrder.getClientId()),
-                  () -> assertEquals(expectedDeadline, actualOrder.getDeadline()),
+        assertAll(() -> assertEquals(expectedDeadline, actualOrder.getDeadline()),
                   () -> assertEquals(expectedPrice, actualOrder.getPrice()),
                   () -> assertEquals(expectedLink, actualOrder.getLink()));
         Mockito.verify(orderDao, Mockito.times(1)).save(actualOrder);

@@ -1,6 +1,5 @@
 package fel.cvut.user.config;
 
-import fel.cvut.user.interceptors.AuthorizationInterceptor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
@@ -15,8 +14,8 @@ public class AppUserConfig implements WebMvcConfigurer {
                 allowedMethods("GET").allowedMethods("POST").allowedMethods("DELETE");
     }
 
-    @Override
-    public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(new AuthorizationInterceptor());
-    }
+//    @Override
+//    public void addInterceptors(InterceptorRegistry registry) {
+//        registry.addInterceptor(new AuthorizationInterceptor());
+//    }
 }

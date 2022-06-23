@@ -29,7 +29,10 @@ public class Order extends AbstractEntity {
 
     @ManyToMany(cascade = CascadeType.ALL)
     @OrderBy("name")
-    private List<Category> categories;
+    private List<Category> categories = new ArrayList<>();
+
+    @ManyToMany(cascade = CascadeType.ALL)
+    private List<Candidate> candidates = new ArrayList<>();
 
     private Order(OrderBuilder builder) {
         price = builder.price;
@@ -53,6 +56,14 @@ public class Order extends AbstractEntity {
 
     public void removeCategory(Category category) {
         categories.remove(category);
+    }
+
+    public void addCandidate(Candidate candidate) {
+        candidates.add(candidate);
+    }
+
+    public void removeCandidate(Candidate candidate) {
+        candidates.remove(candidate);
     }
 
     public boolean isEditable(){

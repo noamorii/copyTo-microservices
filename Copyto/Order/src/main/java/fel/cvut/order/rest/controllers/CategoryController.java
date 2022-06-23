@@ -14,6 +14,8 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -26,8 +28,12 @@ public class CategoryController {
     private final CategoryService categoryService;
     private final OrderService orderService;
 
-    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Void> createCategory(@RequestBody Category category) {
+    @PostMapping(value = "/create", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Void> createCategory(HttpServletRequest request, @RequestBody Category category) {
+        int id = RestUtils.getCookieUserId(request.getCookies());
+        if (id == 0)
+            throw new NotFoundException("You aren't logged in");
+        category.setCreatorId(id);
         categoryService.createCategory(category);
         log.info("Created category {}.", category);
         final HttpHeaders headers = RestUtils.createLocationHeaderFromCurrentUri("/{id}", category.getId());

@@ -41,7 +41,7 @@ public class OrderService {
                 .addPrice(request.getPrice())
                 .addInsertionDate(LocalDate.now())
                 .setOrderState(OrderState.ADDED)
-                .isOpen(true)
+                .setIsOpen(true)
                 .build();
         orderDao.save(order);
         return order;
