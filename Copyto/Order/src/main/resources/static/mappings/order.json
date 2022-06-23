@@ -1,0 +1,13 @@
+{
+  "properties": {
+    "id": {
+      "type": "keyword"
+    },
+    "link": {
+      "type": "text"
+    },
+    "categories": {
+      "type": "nested"
+    }
+  }
+}

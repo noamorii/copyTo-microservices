@@ -1,7 +1,7 @@
 package fel.cvut.order.service;
 
-import fel.cvut.order.dao.CategoryDao;
-import fel.cvut.order.dao.OrderDao;
+import fel.cvut.order.dao.jpa.CategoryDao;
+import fel.cvut.order.dao.jpa.OrderDao;
 import fel.cvut.order.model.Category;
 import fel.cvut.order.model.Order;
 import org.junit.jupiter.api.BeforeEach;

@@ -38,6 +38,13 @@ public class OrderController {
         return new ResponseEntity<>(headers, HttpStatus.CREATED);
     }
 
+    @PostMapping(value = "/createOrder", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public void saveOrder(@RequestBody final Order request) {
+        Order order = orderService.saveOrder(request);
+//        final HttpHeaders headers = RestUtils.createLocationHeaderFromCurrentUri("/{id}", order.getId());
+//        return new ResponseEntity<>(headers, HttpStatus.CREATED);
+    }
+
     @GetMapping
     public List<OrderResponse> getAllOrders() {
 
@@ -55,6 +62,11 @@ public class OrderController {
                 order.getAssigneeId(),
                 order.getClientId()))
             .collect(Collectors.toList());
+    }
+
+    @GetMapping("{id}")
+    public Order getOrderById(@PathVariable final Integer id) {
+        return orderService.findOrderById(id);
     }
 
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)

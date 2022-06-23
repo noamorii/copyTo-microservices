@@ -1,4 +1,4 @@
-package fel.cvut.order.dao;
+package fel.cvut.order.dao.jpa;
 
 import fel.cvut.order.model.Version;
 import org.springframework.data.jpa.repository.JpaRepository;

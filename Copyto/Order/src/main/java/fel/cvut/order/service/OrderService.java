@@ -1,7 +1,8 @@
 package fel.cvut.order.service;
 
-import fel.cvut.order.dao.CategoryDao;
-import fel.cvut.order.dao.OrderDao;
+import fel.cvut.order.dao.elasticsearch.OrderElk;
+import fel.cvut.order.dao.jpa.CategoryDao;
+import fel.cvut.order.dao.jpa.OrderDao;
 import fel.cvut.order.exception.ValidationException;
 import fel.cvut.order.model.Category;
 import fel.cvut.order.model.Order;
@@ -26,6 +27,7 @@ public class OrderService {
     private final OrderDao orderDao;
     private final CategoryDao categoryDao;
     private final RestTemplate restTemplate;
+    private final OrderElk orderElk;
 
     public Order createOrder(CreateOrderRequest request) {
         Objects.requireNonNull(request);
@@ -41,6 +43,16 @@ public class OrderService {
                 .setOrderState(OrderState.ADDED)
                 .build();
         orderDao.save(order);
+//        orderElk.save(order);
+        return order;
+    }
+
+    public Order saveOrder(final Order order) {
+        Objects.requireNonNull(order);
+        if (new Date().compareTo(order.getDeadline()) > 0){
+            throw new ValidationException("The deadline in the request is set for the past");
+        }
+        orderElk.save(order);
         return order;
     }
 
@@ -85,6 +97,10 @@ public class OrderService {
 
     public List<Order> findAllOrders() {
         return orderDao.findAll();
+    }
+
+    public Order findOrderById(final Integer id) {
+        return orderElk.findById(id).orElse(null);
     }
 
     @Cacheable(value = "orders", key = "#id")

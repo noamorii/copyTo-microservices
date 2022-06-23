@@ -2,6 +2,11 @@ package fel.cvut.order.model;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.data.elasticsearch.annotations.Document;
+import org.springframework.data.elasticsearch.annotations.Field;
+import org.springframework.data.elasticsearch.annotations.FieldType;
+import org.springframework.data.elasticsearch.annotations.Setting;
+import org.springframework.data.elasticsearch.client.reactive.ReactiveElasticsearchClient;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -13,11 +18,14 @@ import java.util.List;
 @Entity
 @NoArgsConstructor
 @Table(name = "system_orders")
+@Document(indexName = "order")
+@Setting(settingPath = "static/es-settings.json")
 public class Order extends AbstractEntity {
 
     private double price;
     private LocalDate insertionDate;
     private Date deadline;
+    @Field(type = FieldType.Text)
     private String link;
     private boolean isOpen;
 
@@ -29,6 +37,7 @@ public class Order extends AbstractEntity {
 
     @ManyToMany(cascade = CascadeType.ALL)
     @OrderBy("name")
+    @Field(type = FieldType.Nested, includeInParent = true)
     private List<Category> categories;
 
     private Order(OrderBuilder builder) {
