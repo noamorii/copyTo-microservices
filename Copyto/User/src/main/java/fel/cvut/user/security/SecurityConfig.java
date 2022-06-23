@@ -1,5 +1,6 @@
 package fel.cvut.user.security;
 
+import fel.cvut.user.security.application.ApplicationUser;
 import fel.cvut.user.security.application.ApplicationUserService;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -9,6 +10,8 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
@@ -23,6 +26,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .csrf().disable()
+             //   .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+               // .and()
                 .authorizeRequests()
                 .antMatchers("/", "index", "/css/*", "/js/*").permitAll()
                 .antMatchers("/api/**").permitAll()
@@ -30,12 +35,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authenticated()
                 .and()
                 .formLogin()
+                .defaultSuccessUrl("http://localhost:8080/api/v1/users/sendCookie")
                 .and().logout().logoutUrl("/logout")
                 .clearAuthentication(true).invalidateHttpSession(true)
                 .deleteCookies().logoutSuccessUrl("/login");
-//                .defaultSuccessUrl("/users", true)
-//                .and()
-//                .rememberMe();
     }
 
     @Override

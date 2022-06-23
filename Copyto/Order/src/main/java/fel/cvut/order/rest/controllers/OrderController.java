@@ -4,7 +4,6 @@ import fel.cvut.order.exception.NotFoundException;
 import fel.cvut.order.model.Order;
 import fel.cvut.order.rest.requests.CreateOrderRequest;
 import fel.cvut.order.rest.requests.OrderResponse;
-import fel.cvut.order.rest.requests.UserResponse;
 import fel.cvut.order.rest.util.RestUtils;
 import fel.cvut.order.service.CategoryService;
 import fel.cvut.order.service.OrderService;
@@ -17,6 +16,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -30,24 +33,47 @@ public class OrderController {
     private final CategoryService categoryService;
     private final RestTemplate restTemplate;
 
-    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Void> createOrder(@RequestBody CreateOrderRequest request) {
-        log.info("new order creating {}", request);
-        Order order = orderService.createOrder(request);
-        final HttpHeaders headers = RestUtils.createLocationHeaderFromCurrentUri("/{id}", order.getId());
+    @PostMapping(value = "user/create", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Void> createOrder(HttpServletRequest request, @RequestBody CreateOrderRequest orderRequest) {
+        int id = 0;
+        Cookie[] cookies = request.getCookies();
+        for (Cookie cookie : cookies) {
+            if (cookie.getName().equals("userId")) {
+                id = Integer.parseInt(cookie.getValue());
+            }
+        }
+
+        if (id == 0)
+            throw new NotFoundException("You aren't logged in");
+
+        orderRequest.setUserId(id);
+        log.info("new order creating {}", orderRequest);
+        Order order = orderService.createOrder(orderRequest);
+        final HttpHeaders headers = RestUtils.createLocationHeaderFromCurrentUri("/order/{id}", order.getId());
         return new ResponseEntity<>(headers, HttpStatus.CREATED);
+    }
+
+    @GetMapping(value = "/user/{userid}")
+    public void createUserCookie(HttpServletResponse response, @PathVariable Integer userid) throws IOException {
+        Cookie cookie = new Cookie("userId", userid.toString());
+        cookie.setMaxAge(60*60);
+        response.addCookie(cookie);
+        response.sendRedirect("http://localhost:8081/api/v1/orders/user/");
+    }
+
+    @GetMapping(value = "/user")
+    public Integer getCurrentUserId(HttpServletRequest request){
+        Cookie[] cookies = request.getCookies();
+        for (Cookie cookie : cookies) {
+            if (cookie.getName().equals("userId")) {
+                return Integer.valueOf(cookie.getValue());
+            }
+        }
+        return 0;
     }
 
     @GetMapping
     public List<OrderResponse> getAllOrders() {
-
-        UserResponse currentUser = restTemplate.getForObject(
-                "http://USER/api/v1/users/current_user",
-                UserResponse.class
-        );
-
-        System.out.println("---------!!!!!!!!!!!!!!!!!!!!!!!______________" + currentUser.getId());
-
         return orderService.findAllOrders().stream()
             .map(order -> new OrderResponse(
                 order.getId(),
@@ -57,7 +83,8 @@ public class OrderController {
             .collect(Collectors.toList());
     }
 
-    @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+
+    @GetMapping(value = "/order/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public OrderResponse getById(@PathVariable Integer id) {
         Order order = orderService.findById(id);
 

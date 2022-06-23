@@ -26,12 +26,13 @@ public class OrderService {
     public Order createOrder(CreateOrderRequest request) {
         Objects.requireNonNull(request);
         Order order = Order.builder()
-                .clientId(request.userId())
-                .link(request.link())
-                .deadline(request.deadline())
-                .price(request.price())
+                .clientId(request.getUserId())
+                .link(request.getLink())
+                .deadline(request.getDeadline())
+                .price(request.getPrice())
                 .insertionDate(LocalDate.now())
                 .orderState(OrderState.ADDED)
+                .isOpen(true)
                 .build();
         orderDao.save(order);
         return order;

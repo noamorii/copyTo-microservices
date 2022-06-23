@@ -2,12 +2,24 @@ package fel.cvut.user.rest.controllers;
 
 import fel.cvut.user.model.User;
 import fel.cvut.user.rest.requests.UserRegistrationRequest;
+import fel.cvut.user.security.application.ApplicationUser;
 import fel.cvut.user.service.UserService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.nio.file.attribute.UserPrincipalNotFoundException;
 import java.util.List;
 
 @Slf4j
@@ -17,6 +29,18 @@ import java.util.List;
 public class UserController {
 
     private final UserService userService;
+    private final RestTemplate restTemplate;
+
+    @GetMapping(value = "/sendCookie")
+    public void sendUser(HttpServletRequest request, HttpServletResponse response) throws URISyntaxException, IOException {
+        Object o = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (o != "anonymousUser") {
+            ApplicationUser user = (ApplicationUser) o;
+            response.sendRedirect("http://localhost:8081/api/v1/orders/user/" + user.getId());
+        } else {
+            throw new UserPrincipalNotFoundException("You're not logged in");
+        }
+    }
 
     @PostMapping
     public void registerUser(@RequestBody UserRegistrationRequest userRegistrationRequest) {
