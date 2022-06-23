@@ -1,7 +1,6 @@
 package fel.cvut.user.service;
 
 import fel.cvut.user.dao.UserDao;
-import fel.cvut.user.model.Role;
 import fel.cvut.user.model.User;
 import fel.cvut.user.model.UserFactory;
 import fel.cvut.user.rest.requests.UserRegistrationRequest;
@@ -12,7 +11,6 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
 

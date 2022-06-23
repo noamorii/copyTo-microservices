@@ -3,7 +3,6 @@ package fel.cvut.order.service;
 import fel.cvut.order.dao.CategoryDao;
 import fel.cvut.order.dao.OrderDao;
 import fel.cvut.order.exception.ValidationException;
-import fel.cvut.order.exception.ValidationException;
 import fel.cvut.order.model.Category;
 import fel.cvut.order.model.Order;
 import fel.cvut.order.model.OrderState;
@@ -16,7 +15,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
