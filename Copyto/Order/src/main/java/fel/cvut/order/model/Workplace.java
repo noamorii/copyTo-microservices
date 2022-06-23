@@ -9,8 +9,10 @@ import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
 import javax.persistence.Table;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Stack;
 
 @Data
 @Builder
@@ -22,8 +24,12 @@ public class Workplace extends AbstractEntity {
 
     private boolean isEditable;
     private Integer currentVersionId;
+    private String title;
+    private String text;
+    private LocalDateTime createdAt;
 
-    @OneToMany
-    @OrderBy("createdAt")
-    List<Version> versions = new ArrayList<>();
+
+    public Version createSnapshot(){
+        return new Version(this, isEditable, currentVersionId, title, text, LocalDateTime.now());
+    }
 }
