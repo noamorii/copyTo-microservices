@@ -15,7 +15,7 @@ import javax.persistence.EntityExistsException;
 public record CandidateService(CandidateDao candidateDao, OrderDao orderDao) {
 
     /**
-     *  Find candidate by id
+     *  Find candidate by id.
      * @param id Integer identifier of candidate
      * @return Candidate
      */
@@ -27,7 +27,7 @@ public record CandidateService(CandidateDao candidateDao, OrderDao orderDao) {
     }
 
     /**
-     * Create new candidate for the order
+     * Create new candidate for the order.
      * @param order Order which will have a candidate
      * @param candidate Candidate which will request to be added to Order
      */
@@ -45,7 +45,7 @@ public record CandidateService(CandidateDao candidateDao, OrderDao orderDao) {
     }
 
     /**
-     * Add candidate to the order
+     * Add candidate to the order.
      * @param candidate Candidate which will be added to Order
      * @param order Order which will receive a candidate
      */

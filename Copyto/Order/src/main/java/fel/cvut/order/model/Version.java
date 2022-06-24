@@ -11,7 +11,7 @@ import javax.persistence.Transient;
 import java.time.LocalDateTime;
 
 /**
- * Represents Version of Workplace and Design Pattern Memento
+ * Represents Version of Workplace and Design Pattern Memento.
  */
 @Data
 @Builder
@@ -41,7 +41,7 @@ public class Version extends AbstractEntity {
     }
 
     /**
-     * Restore version of the workplace
+     * Restore version of the workplace.
      * @return Workplace, the old version
      */
     public Workplace restore(){

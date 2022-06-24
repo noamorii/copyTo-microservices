@@ -80,7 +80,7 @@ public class Order extends AbstractEntity {
     /*================BUILDER===================*/
 
     /**
-     * Design pattern Builder
+     * Design pattern Builder.
      */
     public static final class OrderBuilder {
 

@@ -28,7 +28,7 @@ public class UserController {
     private final UserService userService;
 
     /**
-     * Sends a request for to the Order microservice with the card user if he is logged in, if he is not logged in he will throw an exception
+     * Sends a request for to the Order microservice with the card user if he is logged in, if he is not logged in he will throw an exception.
      * @param response server response
      * @throws IOException Signals that an I/O exception of some sort has occurred. This class is the general class of exceptions produced by failed or interrupted I/O operations.
      */
@@ -44,7 +44,7 @@ public class UserController {
     }
 
     /**
-     *  Creates a new user
+     *  Creates a new user.
      * @param userRegistrationRequest request with data to create a new user
      */
     @PostMapping
@@ -54,7 +54,7 @@ public class UserController {
     }
 
     /**
-     * Returns all users
+     * Returns all users.
      * @return List of users
      */
     @GetMapping
@@ -63,7 +63,7 @@ public class UserController {
     }
 
     /**
-     * Returns the current user
+     * Returns the current user.
      * @return Object represents the current user
      */
     @GetMapping(value = "current_user")

@@ -28,7 +28,7 @@ public class RestUtils {
     }
 
     /**
-     * Find cookie with user id from all cookies
+     * Find cookie with user id from all cookies.
      */
     public static int getCookieUserId(Cookie[] cookies) {
         for (Cookie cookie : cookies)

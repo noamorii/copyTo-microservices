@@ -8,10 +8,16 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+/**
+ * General logging Interceptor
+ */
 public class GeneralInterceptor implements HandlerInterceptor {
 
     private final Logger LOG = LoggerFactory.getLogger(GeneralInterceptor.class);
 
+    /**
+     * Writes logs before the request has been sent.
+     */
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         long startTime = System.currentTimeMillis();
@@ -25,12 +31,18 @@ public class GeneralInterceptor implements HandlerInterceptor {
         return true;
     }
 
+    /**
+     * Writes logs after the request has been sent.
+     */
     @Override
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
         System.out.println("\n-------- GeneralInterceptor.postHandle --- ");
         System.out.println("Request URL: " + request.getRequestURL());
     }
 
+    /**
+     * Writes logs when the request has been completed.
+     */
     @Override
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
         System.out.println("\n-------- GeneralInterceptor.afterCompletion --- ");

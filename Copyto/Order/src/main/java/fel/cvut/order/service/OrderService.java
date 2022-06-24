@@ -32,7 +32,7 @@ public class OrderService {
     private final RestTemplate restTemplate;
 
     /**
-     * Creates new order
+     * Creates new order.
      * @param request CreateOrderRequest which contains the data for creating a new order
      * @return Order which been created
      */
@@ -55,7 +55,7 @@ public class OrderService {
     }
 
     /**
-     * Updates the order state
+     * Updates the order state.
      * @param order The Order whose data need to be updated
      */
     @CachePut(value = "orders", key = "#order")
@@ -65,7 +65,7 @@ public class OrderService {
     }
 
     /**
-     * Deletes the order
+     * Deletes the order.
      * @param order Order to be deleted
      */
     @CacheEvict(value = "orders", key = "#order")
@@ -80,7 +80,7 @@ public class OrderService {
     }
 
     /**
-     * Adds a category to the order and the order to the category
+     * Adds a category to the order and the order to the category.
      * @param order An Order that will accept a category
      * @param category Category that will be added to the order
      */
@@ -96,7 +96,7 @@ public class OrderService {
     }
 
     /**
-     * Removes a category from the order and the order from the category
+     * Removes a category from the order and the order from the category.
      * @param order An Order that will remove a category
      * @param category Category that will be removed from the order
      */
@@ -112,7 +112,7 @@ public class OrderService {
     }
 
     /**
-     * Returns a list of all orders
+     * Returns a list of all orders.
      * @return List of all orders
      */
     public List<Order> findAllOrders() {
@@ -120,7 +120,7 @@ public class OrderService {
     }
 
     /**
-     * Returns Order with that id
+     * Returns Order with that id.
      * @param id Integer identifier by which the order is searched for
      * @return An Order with this identifier
      */
@@ -133,7 +133,7 @@ public class OrderService {
     }
 
     /**
-     * Returns List of Orders which have this Category
+     * Returns List of Orders which have this Category.
      * @param category Category by which orders are searched for
      * @return List of Orders
      */

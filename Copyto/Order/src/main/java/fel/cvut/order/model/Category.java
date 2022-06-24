@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Represents Category
+ * Represents Category.
  */
 @Data
 @Builder

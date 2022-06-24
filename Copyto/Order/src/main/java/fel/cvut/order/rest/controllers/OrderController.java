@@ -30,7 +30,7 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 @RestController
 @RequestMapping("api/v1/orders")
-public class OrderController {
+    public class OrderController {
 
     private final OrderService orderService;
     private final CategoryService categoryService;
@@ -38,7 +38,7 @@ public class OrderController {
     private final RestTemplate restTemplate;
 
     /**
-     *  Creates new order
+     *  Creates new order.
      * @param request HttpServletRequest
      * @param orderRequest CreateOrderRequest
      * @return ResponseEntity<> with order address and HttpStatus
@@ -58,7 +58,7 @@ public class OrderController {
     }
 
     /**
-     *  Returns all orders
+     *  Returns all orders.
      * @return List<OrderResponse>
      */
     @GetMapping
@@ -73,7 +73,7 @@ public class OrderController {
     }
 
     /**
-     * Returns OrderResponse with that id
+     * Returns OrderResponse with that id.
      * @param id Integer identifier by which the order is searched for
      * @return OrderResponse
      */
@@ -93,7 +93,7 @@ public class OrderController {
     }
 
     /**
-     * Returns List of Orders which have this Category
+     * Returns List of Orders which have this Category.
      * @param id Integer identifier of category by which the order is searched for
      * @return List<OrderResponse>
      */
@@ -111,7 +111,7 @@ public class OrderController {
     }
 
     /**
-     * Deletes the order
+     * Deletes the order.
      * @param id Integer identifier by which the order is removed for
      */
     @DeleteMapping(value = "/{id}")
@@ -127,7 +127,7 @@ public class OrderController {
     }
 
     /**
-     * Request the opportunity to become a candidate for the order
+     * Request the opportunity to become a candidate for the order.
      * @param id Integer identifier by which the order is searched for
      */
     @GetMapping(value = "/order/{id}/candidate")
@@ -142,7 +142,7 @@ public class OrderController {
     }
 
     /**
-     * Accept a candidate for the order
+     * Accept a candidate for the order.
      * @param orderId Integer identifier by which the order is searched for
      * @param candidateId Integer identifier by which the candidate is searched for
      */

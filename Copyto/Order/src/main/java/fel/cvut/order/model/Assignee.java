@@ -1,7 +1,7 @@
 package fel.cvut.order.model;
 
 /**
- * Represents Assignee person to the order
+ * Represents Assignee person to the order.
  */
 public class Assignee {
 
@@ -13,14 +13,14 @@ public class Assignee {
     }
 
     /**
-     * Creates backup ot the workplace
+     * Creates backup ot the workplace.
      */
     public void makeBackup() {
         version = workplace.createSnapshot();
     }
 
     /**
-     * Restores old version
+     * Restores old version.
      */
     public void undo() {
         if (version != null) {

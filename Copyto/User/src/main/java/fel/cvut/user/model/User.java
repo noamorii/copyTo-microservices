@@ -11,7 +11,7 @@ import javax.persistence.Table;
 import java.util.Date;
 
 /**
- * Represents a User
+ * Represents a User.
  */
 @Data
 @Builder

@@ -3,12 +3,12 @@ package fel.cvut.user.model;
 import java.util.Date;
 
 /**
- * Design pattern Factory, which allows you to create users with different roles
+ * Design pattern Factory, which allows you to create users with different roles.
  */
 public class UserFactory {
 
     /**
-     * Creates admin user
+     * Creates admin user.
      * @return Admin User
      */
     public User createAdmin(String firstname, String surname, String password, String mobile,
@@ -17,7 +17,7 @@ public class UserFactory {
     }
 
     /**
-     * Creates client user
+     * Creates client user.
      * @return Client User
      */
     public User createClient(String firstname, String surname, String password, String mobile,
@@ -26,7 +26,7 @@ public class UserFactory {
     }
 
     /**
-     * Creates copywriter user
+     * Creates copywriter user.
      * @return Copywriter User
      */
     public User createCopywriter(String firstname, String surname, String password, String mobile,

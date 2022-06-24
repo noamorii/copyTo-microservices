@@ -12,7 +12,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 /**
- * Class which configure security
+ * Class which configure security.
  */
 @Configuration
 @EnableWebSecurity

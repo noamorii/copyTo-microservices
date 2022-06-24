@@ -31,7 +31,7 @@ public class CategoryController {
     private final OrderService orderService;
 
     /**
-     * Creates new category
+     * Creates new category.
      * @param request HttpServletRequest
      * @param category Category which contains the data for creating a new category
      * @return ResponseEntity<Void>
@@ -49,7 +49,7 @@ public class CategoryController {
     }
 
     /**
-     * Find all categories
+     * Find all categories.
      * @return List<CategoryResponse>
      */
     @GetMapping
@@ -62,7 +62,7 @@ public class CategoryController {
     }
 
     /**
-     * Find category by id
+     * Find category by id.
      * @param id Integer identifier by which the category is searched for
      * @return CategoryResponse
      */
@@ -80,7 +80,7 @@ public class CategoryController {
     }
 
     /**
-     *  Find category by Order id
+     *  Find category by Order id.
      * @param id Integer identifier of order by which the category is searched for
      * @return List<CategoryResponse>
      */
@@ -96,7 +96,7 @@ public class CategoryController {
     }
 
     /**
-     * Delete category by id
+     * Delete category by id.
      * @param id Integer identifier of category
      */
     @DeleteMapping(value = "/{id}")

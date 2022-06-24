@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Objects;
 
 /**
- * Represents a User Service
+ * Represents a User Service.
  */
 @Service
 @AllArgsConstructor
@@ -25,7 +25,7 @@ public class UserService {
     private final PasswordEncoder encoder;
 
     /**
-     * Creates a new user
+     * Creates a new user.
      * @param request UserRegistrationRequest which contains the data for creating a new user
      */
     public void registerUser(UserRegistrationRequest request) {
@@ -45,7 +45,7 @@ public class UserService {
     }
 
     /**
-     * Updates the user state
+     * Updates the user state.
      * @param user The User whose data need to be updated
      */
     @CachePut(value = "users", key = "#user")
@@ -55,7 +55,7 @@ public class UserService {
     }
 
     /**
-     * Deletes the user
+     * Deletes the user.
      * @param user User to be deleted
      */
     @CacheEvict(value = "orders", key = "#user")
@@ -65,7 +65,7 @@ public class UserService {
     }
 
     /**
-     * Returns a list of all users
+     * Returns a list of all users.
      * @return List of all users
      */
     public List<User> findAllUsers() {
@@ -73,7 +73,7 @@ public class UserService {
     }
 
     /**
-     * Returns User with that id
+     * Returns User with that id.
      * @param id Integer identifier by which the user is searched for
      * @return A User with this identifier
      */

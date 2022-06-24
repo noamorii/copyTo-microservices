@@ -21,7 +21,7 @@ public class CategoryService {
     private final OrderDao orderDao;
 
     /**
-     * Creates new category
+     * Creates new category.
      * @param category Category to be saved
      */
     public void createCategory(Category category) {
@@ -30,7 +30,7 @@ public class CategoryService {
     }
 
     /**
-     * Adds an order to the category and the category to the order
+     * Adds an order to the category and the category to the order.
      * @param category A Category that will accept an order
      * @param order An Order that will be added to the category
      */
@@ -45,7 +45,7 @@ public class CategoryService {
     }
 
     /**
-     * Removes an order from the category and the category from the order
+     * Removes an order from the category and the category from the order.
      * @param category A Category that will remove an order
      * @param order An Order that will be removed from the category
      */
@@ -60,7 +60,7 @@ public class CategoryService {
     }
 
     /**
-     * Updates category name
+     * Updates category name.
      * @param category A Category which receives new name
      * @param name A String with new name
      */
@@ -73,7 +73,7 @@ public class CategoryService {
     }
 
     /**
-     *  Deletes the category and removes that category from all orders which have that category
+     *  Deletes the category and removes that category from all orders which have that category.
      * @param category Category to be removed
      */
     public void deleteCategory(Category category) {
@@ -86,7 +86,7 @@ public class CategoryService {
     }
 
     /**
-     * Returns a list of all categories
+     * Returns a list of all categories.
      * @return List of Categories
      */
     public List<Category> findAllCategories() {
@@ -94,7 +94,7 @@ public class CategoryService {
     }
 
     /**
-     * Returns Category with that id
+     * Returns Category with that id.
      * @param id Integer identifier by which the category is searched for
      * @return A Category with this identifier
      */
@@ -103,7 +103,7 @@ public class CategoryService {
     }
 
     /**
-     * Returns List of Orders which have this Order
+     * Returns List of Orders which have this Order.
      * @param order Order by which categories are searched for
      * @return List of Categories
      */

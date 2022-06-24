@@ -9,13 +9,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * Class for logging on authorization
+ * Class for logging on authorization.
  */
 public class AuthorizationInterceptor implements HandlerInterceptor {
     private final Logger LOG = LoggerFactory.getLogger(AuthorizationInterceptor.class);
 
     /**
-     *  Writes logs before the request has been sent
+     *  Writes logs before the request has been sent.
      */
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
@@ -44,7 +44,7 @@ public class AuthorizationInterceptor implements HandlerInterceptor {
     }
 
     /**
-     *  Writes logs after the request has been sent
+     *  Writes logs after the request has been sent.
      */
     @Override
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
@@ -53,7 +53,7 @@ public class AuthorizationInterceptor implements HandlerInterceptor {
     }
 
     /**
-     * Writes logs when the request has been completed
+     * Writes logs when the request has been completed.
      */
     @Override
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
