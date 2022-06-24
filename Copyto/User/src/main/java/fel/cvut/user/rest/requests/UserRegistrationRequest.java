@@ -4,6 +4,9 @@ import fel.cvut.user.model.Role;
 
 import java.util.Date;
 
+/**
+ * Request which has all user parameters
+ */
 public record UserRegistrationRequest(
         String firstName,
         String surname,

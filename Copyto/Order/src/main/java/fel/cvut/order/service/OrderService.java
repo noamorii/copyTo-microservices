@@ -20,6 +20,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * Represents an Order Service.
+ */
 @Service
 @AllArgsConstructor
 public class OrderService {
@@ -28,6 +31,11 @@ public class OrderService {
     private final CategoryDao categoryDao;
     private final RestTemplate restTemplate;
 
+    /**
+     * Creates new order
+     * @param request CreateOrderRequest which contains the data for creating a new order
+     * @return Order which been created
+     */
     public Order createOrder(CreateOrderRequest request) {
         Objects.requireNonNull(request);
         if (new Date().compareTo(request.getDeadline()) > 0){
@@ -46,12 +54,20 @@ public class OrderService {
         return order;
     }
 
+    /**
+     * Updates the order state
+     * @param order The Order whose data need to be updated
+     */
     @CachePut(value = "orders", key = "#order")
     public void update(Order order) {
         Objects.requireNonNull(order);
         orderDao.save(order);
     }
 
+    /**
+     * Deletes the order
+     * @param order Order to be deleted
+     */
     @CacheEvict(value = "orders", key = "#order")
     public void delete(Order order) {
         Objects.requireNonNull(order);
@@ -63,6 +79,11 @@ public class OrderService {
         orderDao.delete(order);
     }
 
+    /**
+     * Adds a category to the order and the order to the category
+     * @param order An Order that will accept a category
+     * @param category Category that will be added to the order
+     */
     public void addCategory(Order order, Category category) {
         Objects.requireNonNull(order);
         Objects.requireNonNull(category);
@@ -74,6 +95,11 @@ public class OrderService {
         categoryDao.save(category);
     }
 
+    /**
+     * Removes a category from the order and the order from the category
+     * @param order An Order that will remove a category
+     * @param category Category that will be removed from the order
+     */
     public void removeCategory(Order order, Category category) {
         Objects.requireNonNull(order);
         Objects.requireNonNull(category);
@@ -85,10 +111,19 @@ public class OrderService {
         categoryDao.save(category);
     }
 
+    /**
+     * Returns a list of all orders
+     * @return List of all orders
+     */
     public List<Order> findAllOrders() {
         return orderDao.findAll();
     }
 
+    /**
+     * Returns Order with that id
+     * @param id Integer identifier by which the order is searched for
+     * @return An Order with this identifier
+     */
     @Cacheable(value = "orders", key = "#id")
     public Order findById(Integer id) {
         Order order = orderDao.findById(id).orElse(null);
@@ -97,6 +132,11 @@ public class OrderService {
         return order;
     }
 
+    /**
+     * Returns List of Orders which have this Category
+     * @param category Category by which orders are searched for
+     * @return List of Orders
+     */
     public List<Order> findOrdersByCategory(Category category) {
        return category.getOrders();
     }

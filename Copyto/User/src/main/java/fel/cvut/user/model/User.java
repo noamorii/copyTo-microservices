@@ -10,6 +10,9 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 import java.util.Date;
 
+/**
+ * Represents a User
+ */
 @Data
 @Builder
 @AllArgsConstructor
@@ -28,6 +31,10 @@ public class User extends AbstractEntity {
 
     private String intro;
 
+    /**
+     * Encode the raw password.
+     * @param passwordEncoder Service interface for encoding passwords
+     */
     public void encodePassword(PasswordEncoder passwordEncoder) {
         password = passwordEncoder.encode(password);
     }

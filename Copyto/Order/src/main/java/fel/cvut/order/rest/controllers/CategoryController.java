@@ -18,6 +18,9 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Controller class is responsible for processing incoming REST API requests, preparing a model, and returning the view to be rendered as a response.
+ */
 @Slf4j
 @AllArgsConstructor
 @RestController
@@ -27,6 +30,12 @@ public class CategoryController {
     private final CategoryService categoryService;
     private final OrderService orderService;
 
+    /**
+     * Creates new category
+     * @param request HttpServletRequest
+     * @param category Category which contains the data for creating a new category
+     * @return ResponseEntity<Void>
+     */
     @PostMapping(value = "/create", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> createCategory(HttpServletRequest request, @RequestBody Category category) {
         int id = RestUtils.getCookieUserId(request.getCookies());
@@ -39,6 +48,10 @@ public class CategoryController {
         return new ResponseEntity<>(headers, HttpStatus.CREATED);
     }
 
+    /**
+     * Find all categories
+     * @return List<CategoryResponse>
+     */
     @GetMapping
     public List<CategoryResponse> getAllCategories() {
         return categoryService.findAllCategories().stream()
@@ -48,6 +61,11 @@ public class CategoryController {
             .collect(Collectors.toList());
     }
 
+    /**
+     * Find category by id
+     * @param id Integer identifier by which the category is searched for
+     * @return CategoryResponse
+     */
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public CategoryResponse getById(@PathVariable Integer id) {
         Category category = categoryService.findById(id);
@@ -61,6 +79,11 @@ public class CategoryController {
         );
     }
 
+    /**
+     *  Find category by Order id
+     * @param id Integer identifier of order by which the category is searched for
+     * @return List<CategoryResponse>
+     */
     @GetMapping(value = "/{id}/categories", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<CategoryResponse> getCategoriesByOrder(@PathVariable Integer id) {
         List<Category> categories = categoryService.findCategoriesByOrder(orderService.findById(id));
@@ -72,6 +95,10 @@ public class CategoryController {
             .collect(Collectors.toList());
     }
 
+    /**
+     * Delete category by id
+     * @param id Integer identifier of category
+     */
     @DeleteMapping(value = "/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteCategory(@PathVariable Integer id) {
