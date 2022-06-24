@@ -1,6 +1,6 @@
 package fel.cvut.order.config;
 
-import fel.cvut.order.interceptors.GeneralInterceptor;
+//import fel.cvut.order.interceptors.GeneralInterceptor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
@@ -16,8 +16,8 @@ public class AppConfig implements WebMvcConfigurer {
                 allowedOrigins("http://localhost:3000").
                 allowedMethods("GET").allowedMethods("POST").allowedMethods("DELETE");
     }
-    @Override
-    public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(new GeneralInterceptor());
-    }
+//    @Override
+//    public void addInterceptors(InterceptorRegistry registry) {
+//        registry.addInterceptor(new GeneralInterceptor());
+//    }
 }

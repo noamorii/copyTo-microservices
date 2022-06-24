@@ -13,6 +13,7 @@
         <module>User</module>
         <module>Order</module>
         <module>Eureka-server</module>
+        <module>Kafka</module>
     </modules>
 
     <properties>
