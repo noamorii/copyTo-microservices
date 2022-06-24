@@ -9,6 +9,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * Represents Order
+ */
 @Data
 @Entity
 @NoArgsConstructor
@@ -76,6 +79,9 @@ public class Order extends AbstractEntity {
 
     /*================BUILDER===================*/
 
+    /**
+     * Design pattern Builder
+     */
     public static final class OrderBuilder {
 
         private OrderBuilder() {

@@ -14,6 +14,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
 
+/**
+ * Represents Workplace and Design Pattern Memento
+ */
 @Data
 @Builder
 @AllArgsConstructor
@@ -28,7 +31,10 @@ public class Workplace extends AbstractEntity {
     private String text;
     private LocalDateTime createdAt;
 
-
+    /**
+     * Creates snapshot of the workplace
+     * @return Version
+     */
     public Version createSnapshot(){
         return new Version(this, isEditable, currentVersionId, title, text, LocalDateTime.now());
     }

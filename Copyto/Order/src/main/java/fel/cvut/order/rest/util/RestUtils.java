@@ -27,6 +27,9 @@ public class RestUtils {
         return headers;
     }
 
+    /**
+     * Find cookie with user id from all cookies
+     */
     public static int getCookieUserId(Cookie[] cookies) {
         for (Cookie cookie : cookies)
             if (cookie.getName().equals("userId"))

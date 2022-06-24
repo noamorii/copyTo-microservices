@@ -1,5 +1,8 @@
 package fel.cvut.order.model;
 
+/**
+ * Represents enum of order and design pattern State Machine
+ */
 public enum OrderState {
     ADDED("ADDED"){
         @Override

@@ -10,6 +10,9 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 import java.time.LocalDateTime;
 
+/**
+ * Represents Version of Workplace and Design Pattern Memento
+ */
 @Data
 @Builder
 @AllArgsConstructor
@@ -37,6 +40,10 @@ public class Version extends AbstractEntity {
         this.currentVersionId = counter;
     }
 
+    /**
+     * Restore version of the workplace
+     * @return Workplace, the old version
+     */
     public Workplace restore(){
         workplace.setEditable(isEditable);
         workplace.setId(currentVersionId);

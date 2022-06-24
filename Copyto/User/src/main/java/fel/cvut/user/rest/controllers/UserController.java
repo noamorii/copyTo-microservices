@@ -16,6 +16,9 @@ import java.net.URISyntaxException;
 import java.nio.file.attribute.UserPrincipalNotFoundException;
 import java.util.List;
 
+/**
+ * Controller class is responsible for processing incoming REST API requests, preparing a model, and returning the view to be rendered as a response.
+ */
 @Slf4j
 @AllArgsConstructor
 @RestController
@@ -24,8 +27,13 @@ public class UserController {
 
     private final UserService userService;
 
+    /**
+     * Sends a request for to the Order microservice with the card user if he is logged in, if he is not logged in he will throw an exception
+     * @param response server response
+     * @throws IOException Signals that an I/O exception of some sort has occurred. This class is the general class of exceptions produced by failed or interrupted I/O operations.
+     */
     @GetMapping(value = "/sendCookie")
-    public void sendUser(HttpServletRequest request, HttpServletResponse response) throws URISyntaxException, IOException {
+    public void sendUser(HttpServletResponse response) throws IOException {
         Object o = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
         if (o == "anonymousUser")
@@ -35,17 +43,29 @@ public class UserController {
         response.sendRedirect("http://localhost:8081/api/v1/" + user.getId());
     }
 
+    /**
+     *  Creates a new user
+     * @param userRegistrationRequest request with data to create a new user
+     */
     @PostMapping
     public void registerUser(@RequestBody UserRegistrationRequest userRegistrationRequest) {
         log.info("new user registration {}", userRegistrationRequest);
         userService.registerUser(userRegistrationRequest);
     }
 
+    /**
+     * Returns all users
+     * @return List of users
+     */
     @GetMapping
     public List<User> getAllUsers() {
         return userService.findAllUsers();
     }
 
+    /**
+     * Returns the current user
+     * @return Object represents the current user
+     */
     @GetMapping(value = "current_user")
     public Object getCurrentUser() {
         return SecurityContextHolder.getContext()
